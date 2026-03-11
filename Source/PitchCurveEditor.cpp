@@ -1,10 +1,10 @@
 #include "PitchCurveEditor.h"
 
-static const juce::Colour BG      { 0xff080812 };
-static const juce::Colour GRID    { 0xff2a2a44 };
-static const juce::Colour ZEROLINE{ 0xff555588 };
-static const juce::Colour CURVE   { 0xff6c63ff };
-static const juce::Colour FILL    { 0x226c63ff };
+static const juce::Colour BG      { 0xff001208 };   // CRT dark green
+static const juce::Colour GRID    { 0xff003318 };   // CRT grid
+static const juce::Colour ZEROLINE{ 0xff006633 };   // brighter zero
+static const juce::Colour CURVE   { 0xffff44ff };   // neon magenta/pink
+static const juce::Colour FILL    { 0x33ff44ff };   // translucent pink fill
 
 PitchCurveEditor::PitchCurveEditor()
 {
@@ -41,9 +41,9 @@ void PitchCurveEditor::paint(juce::Graphics& g)
 {
     auto b = canvasBounds();
 
-    // Background
+    // Background (CRT phosphor)
     g.setColour(BG);
-    g.fillRoundedRectangle(b, 6.0f);
+    g.fillRect(b);
 
     // Horizontal grid lines at ±6, ±12, ±18, ±24 semitones
     for (float semi : { -24.0f, -18.0f, -12.0f, -6.0f, 6.0f, 12.0f, 18.0f, 24.0f })
@@ -98,9 +98,7 @@ void PitchCurveEditor::paint(juce::Graphics& g)
     g.setColour(CURVE);
     g.strokePath(curvePath, juce::PathStrokeType(2.0f, juce::PathStrokeType::curved));
 
-    // Border
-    g.setColour(CURVE.withAlpha(0.4f));
-    g.drawRoundedRectangle(b, 6.0f, 1.2f);
+    // No inner border — outer frame drawn by PluginEditor
 
     // Labels
     g.setColour(juce::Colours::white.withAlpha(0.4f));

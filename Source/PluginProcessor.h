@@ -37,28 +37,26 @@ public:
     void setCurve(const std::array<float, CURVE_SIZE>& newCurve);
     const std::array<float, CURVE_SIZE>& getCurve() const { return pitchCurve; }
 
-    // Render processed audio using current curve + pitch data
     juce::AudioBuffer<float> renderProcessed() const;
+    void precomputePositions();  // public: called by tension knob
 
     juce::AudioProcessorValueTreeState parameters;
     juce::String loadedFileName;
 
-    // Accessible for UI
-    int  sampleLength   = 0;
-    int  sampleChannels = 0;
+    int inputLength    = 0;   // raw sample frames
+    int outputLength   = 0;   // after stretch
+    int sampleChannels = 0;
 
 private:
     juce::AudioFormatManager formatManager;
-    juce::AudioBuffer<float> sampleBuffer;
+    juce::AudioBuffer<float>  sampleBuffer;
     std::array<float, CURVE_SIZE> pitchCurve {};
 
-    // Playback state
     bool  isPlaying    = false;
     int   outputSample = 0;
     float noteVelocity = 1.0f;
 
-    std::vector<double> readPositions;
-    void precomputePositions();
+    std::vector<double> readPositions;  // size = outputLength
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PogoAudioProcessor)
 };

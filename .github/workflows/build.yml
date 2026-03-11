@@ -1,4 +1,4 @@
-name: Build Pogo VST3
+name: Build Pogo Loco VST3
 
 on:
   push:
@@ -21,8 +21,8 @@ jobs:
       - name: Upload VST3
         uses: actions/upload-artifact@v4
         with:
-          name: Pogo-Windows-VST3
-          path: build/Pogo_artefacts/Release/VST3/
+          name: PogoLoco-Windows-VST3
+          path: build/PogoLoco_artefacts/Release/VST3/
 
   build-mac:
     name: macOS VST3
@@ -42,5 +42,5 @@ jobs:
       - name: Upload VST3
         uses: actions/upload-artifact@v4
         with:
-          name: Pogo-Mac-VST3
-          path: build/Pogo_artefacts/Release/VST3/
+          name: PogoLoco-Mac-VST3
+          path: build/PogoLoco_artefacts/Release/VST3/
