@@ -1,9 +1,13 @@
 #pragma once
 #include <JuceHeader.h>
+#include <array>
+#include <vector>
 
 class PogoAudioProcessor : public juce::AudioProcessor
 {
 public:
+    static constexpr int CURVE_SIZE = 256;
+
     PogoAudioProcessor();
     ~PogoAudioProcessor() override;
 
@@ -30,24 +34,31 @@ public:
     void setStateInformation(const void* data, int sizeInBytes) override;
 
     void loadSample(const juce::File& file);
+    void setCurve(const std::array<float, CURVE_SIZE>& newCurve);
+    const std::array<float, CURVE_SIZE>& getCurve() const { return pitchCurve; }
+
+    // Render processed audio using current curve + pitch data
+    juce::AudioBuffer<float> renderProcessed() const;
 
     juce::AudioProcessorValueTreeState parameters;
     juce::String loadedFileName;
 
+    // Accessible for UI
+    int  sampleLength   = 0;
+    int  sampleChannels = 0;
+
 private:
     juce::AudioFormatManager formatManager;
     juce::AudioBuffer<float> sampleBuffer;
-    int sampleLength   = 0;
-    int sampleChannels = 0;
+    std::array<float, CURVE_SIZE> pitchCurve {};
 
     // Playback state
-    bool isPlaying   = false;
-    int  outputSample = 0;
+    bool  isPlaying    = false;
+    int   outputSample = 0;
     float noteVelocity = 1.0f;
 
-    // Pre-computed read positions for current note
     std::vector<double> readPositions;
-    void precomputePositions(float pogoAmount);
+    void precomputePositions();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PogoAudioProcessor)
 };

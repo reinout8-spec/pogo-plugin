@@ -32,6 +32,7 @@ juce_generate_juce_header(Pogo)
 target_sources(Pogo PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp
+    Source/PitchCurveEditor.cpp
 )
 
 target_compile_definitions(Pogo PUBLIC
