@@ -17,6 +17,11 @@ PogoAudioProcessor::PogoAudioProcessor()
 
 PogoAudioProcessor::~PogoAudioProcessor() {}
 
+juce::AudioProcessorEditor* PogoAudioProcessor::createEditor()
+{
+    return new PogoAudioProcessorEditor(*this);
+}
+
 void PogoAudioProcessor::prepareToPlay(double, int)
 {
     isPlaying    = false;
