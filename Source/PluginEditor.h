@@ -3,6 +3,8 @@
 #include "PluginProcessor.h"
 #include "PitchCurveEditor.h"
 
+class SkinButtonLF;
+
 class PogoAudioProcessorEditor : public juce::AudioProcessorEditor,
                                   public juce::FileDragAndDropTarget
 {
@@ -19,10 +21,10 @@ public:
 private:
     PogoAudioProcessor& audioProcessor;
 
+    juce::Image      skinImage;
     PitchCurveEditor curveEditor;
 
     juce::Slider     tensionKnob;
-    juce::Label      tensionLabel;
     juce::Label      tensionValLabel;
     juce::Label      fileLabel;
 
@@ -34,13 +36,11 @@ private:
     juce::TextButton presetSweep;
     juce::TextButton presetTape;
 
+    std::unique_ptr<SkinButtonLF> lfFeedMe, lfChill, lfYeet, lfPreset;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> tensionAttach;
 
     void openFileChooser();
     void doExportDrag();
-    void styleBtn(juce::TextButton&, juce::Colour bg, juce::Colour text, int fontSize = 14);
-    void paintRivetCorners(juce::Graphics& g, juce::Rectangle<float> r);
-    void paintPanel(juce::Graphics& g, juce::Rectangle<float> r, juce::Colour border);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(PogoAudioProcessorEditor)
 };

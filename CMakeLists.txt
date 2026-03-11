@@ -29,6 +29,10 @@ juce_add_plugin(PogoLoco
 
 juce_generate_juce_header(PogoLoco)
 
+juce_add_binary_data(PogoAssets SOURCES
+    Assets/skin.png
+)
+
 target_sources(PogoLoco PRIVATE
     Source/PluginProcessor.cpp
     Source/PluginEditor.cpp
@@ -44,6 +48,7 @@ target_compile_definitions(PogoLoco PUBLIC
 target_link_libraries(PogoLoco
     PRIVATE
         juce::juce_audio_utils
+        PogoAssets
     PUBLIC
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
